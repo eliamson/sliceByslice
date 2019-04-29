@@ -81,14 +81,6 @@ vertCplot<- function(rowI,DoPlots = FALSE){
     dfInt$ResAreaLoess<- predict(Arlo1_2) #append Area values predicted by LOESS (to new variable)
     lines(dfInt$ResCloess, col='red', lwd=2)
     
-    ###Comparison of LOESS to fully automatic  (so not using "1 2 or 3") =>useless, TO EXCLUDE
-    ##Seq_ResC <- 1:length(dfInt$ResC)
-    ##loResC <- loess(dfInt$ResC~Seq_ResC,span=0.2) #excluding nothing
-    ##dfInt$ResCloessRaw<- predict(loResC) #append values predicted by LOESS (to new variable)
-    ##lines(dfInt$ResCloessRaw, col='red', lwd=2)
-    ###plot(dfFull$ResC[Z1:Z2]); lines(1:length(Z1:Z2), dfFull$ResC[Z1:Z2])# uncleaned profile
-  
-    
   # Append results
   return(dfInt)
 } 
@@ -138,9 +130,3 @@ TotalMeanCspan <- max(DataComb$MeanC, na.rm = T)-min(DataComb$MeanC, na.rm = T)
 DataComb$CleanDiffToOverallVar <- (abs(DataComb$MeanC-DataComb$MeanC_Loess)/TotalMeanCspan)*100
 mean(DataComb$CleanDiffToOverallVar,na.rm = T)
 max(DataComb$CleanDiffToOverallVar,na.rm = T)
-#=with n=72, the greatest difference between MeanC (semi-automatic exclusion) and MeanC_Loess represents < 1% of variation described by whole dataset. Mean difference <0.2%
-
-##DataComb$CleanDiffRawToOverallVar <- (abs(DataComb$MeanC-DataComb$MeanC_Loess_Raw)/TotalMeanCspan)*100
-##mean(DataComb$CleanDiffRawToOverallVar,na.rm = T)
-##max(DataComb$CleanDiffRawToOverallVar,na.rm = T)
-##=>baaaad

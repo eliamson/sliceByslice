@@ -124,7 +124,7 @@ mean(DataComb$MeanArea,na.rm = T)
 vertCplot(63,DoPlots = T)
 
 
-#### 3. Difference between exclusion methods ####
+#### Depauperated: 3. Difference between exclusion methods ####
 DataComb$CleanDiff <- (abs(DataComb$MeanC-DataComb$MeanC_Loess)/DataComb$MeanC)*100
 TotalMeanCspan <- max(DataComb$MeanC, na.rm = T)-min(DataComb$MeanC, na.rm = T)
 DataComb$CleanDiffToOverallVar <- (abs(DataComb$MeanC-DataComb$MeanC_Loess)/TotalMeanCspan)*100

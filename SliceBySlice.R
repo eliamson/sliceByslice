@@ -4,7 +4,6 @@ setwd("~/Documents/utilitaire/R/MammalBoneStruc/MSC-Full-lumbar-allNew")
 DataMSCF_List <- list.files(full.names = F,recursive=F)
 
 vertCplot<- function(rowI,DoPlots = FALSE){
-  #rowI=1; DoPlots=T
   Range <- 4  # for outlier detection
   dfFull <- data.frame(read.csv(DataMSCF_List[rowI],header = T,fileEncoding="latin1"))
   levels(dfFull$ToRem) <- c(levels(dfFull$ToRem),"3")

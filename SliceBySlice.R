@@ -10,7 +10,7 @@ vertCplot<- function(rowI,DoPlots = FALSE){
   Z1=dfFull$X[dfFull$ToRem=="Z1"]
   Z2=dfFull$X[dfFull$ToRem=="Z2"]
   
-  #Local outlier detector: > Q_3 + 1.5 * IQR of a  -Range-3:+Range+3 subsample (excluding slice of interest) (-3/+3 to avoid direct neighbours)
+  #Local outlier detector: > Q_3 + 1.5 * IQR of a  -Range-3:+Range+3 subsample (excluding slice of interest and direct neighbours)
   for (j in Z1:Z2){ 
     if(j>Z1+Range && j<Z2-Range && dfFull$ToRem[j]==0){
         subSamp <- dfFull[c((j-Range):(j-2),(j+2):(j+Range)),]
@@ -121,11 +121,3 @@ vertCplot(53,DoPlots = T)
   #Mean of whole dataset
 mean(DataComb$MeanArea,na.rm = T)
 vertCplot(63,DoPlots = T)
-
-
-#### Depauperated: 3. Difference between exclusion methods ####
-DataComb$CleanDiff <- (abs(DataComb$MeanC-DataComb$MeanC_Loess)/DataComb$MeanC)*100
-TotalMeanCspan <- max(DataComb$MeanC, na.rm = T)-min(DataComb$MeanC, na.rm = T)
-DataComb$CleanDiffToOverallVar <- (abs(DataComb$MeanC-DataComb$MeanC_Loess)/TotalMeanCspan)*100
-mean(DataComb$CleanDiffToOverallVar,na.rm = T)
-max(DataComb$CleanDiffToOverallVar,na.rm = T)

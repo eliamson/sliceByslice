@@ -1,4 +1,4 @@
-macro "WholeVertComp" {
+macro "sliceBySliceCnA" {
 
 //V0.9.2 5%
 //Eli Amson eli.amson1988@gmail.com

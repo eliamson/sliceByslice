@@ -1,6 +1,6 @@
-macro "WholeVertComp" {
+macro "sliceBySlice" {
 
-//V0.9.3 "===" typo + log prettier
+//V0.9.4 rename
 //Eli Amson eli.amson1988@gmail.com
 
 //This macro measures slice by slice area and compactness of object of interest. It should be applied to a stack (grey-values or already binarized) of which the unit is either mm or inch.

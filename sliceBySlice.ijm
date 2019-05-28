@@ -1,6 +1,6 @@
 macro "sliceBySlice" {
 
-//V0.9.5 Add plot and make sure binarize option is set correctly
+//V0.9.6 Check LUT
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -26,11 +26,20 @@ run("Options...", "iterations=1 count=1");
 	if (!is("binary")){
 	run("Optimise Threshold", "threshold apply");
 	}else{
-		if (getPixel(0, 0)==255){//In case inverted binarization
+		if (is("Inverting LUT") != true){
+			run("Invert LUT");
+			if (getPixel(0, 0)==255){//In case inverted binarization
 			run("Invert", "stack");
 			waitForUser("Top left pixel was not background, so stack was inverted");
 			}
+		}else{
+			if (getPixel(0, 0)==255){//In case inverted binarization
+			run("Invert", "stack");
+			waitForUser("Top left pixel was not background, so stack was inverted");
+			}
+		}
 	}
+	
 	// Close previous Results window if any
 	listWin = getList("window.titles");
 	  if (listWin.length!=0){

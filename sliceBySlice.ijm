@@ -1,6 +1,6 @@
 macro "sliceBySlice" {
 
-//V0.9.6 Check LUT
+//V0.9.7 Better text
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -88,14 +88,14 @@ run("Options...", "iterations=1 count=1");
 	setSlice(1);
 	setTool("wand");
 	run("Wand Tool...", "tolerance=0 mode=8-connected");
-	waitForUser("Move to first slice with complete bone (Z1)");
+	waitForUser("Move to first slice of interest (Z1)");
 	Z1=getSliceNumber();
 	ToDel=true;
 	ToRemCount=0;
 		while (ToDel){
 		waitForUser("Check if slices to remove and then click 'OK'");
 		Dialog.create("Slices to exclude?");
-		Dialog.addCheckbox("Are there (more) slices to exclude?", false)
+		Dialog.addCheckbox("Are there slices to exclude?", false)
 		Dialog.show()
 		ToDel=Dialog.getCheckbox();
 			if (ToDel) {
@@ -115,7 +115,7 @@ run("Options...", "iterations=1 count=1");
 					}
 			}	
 		}
-	waitForUser("Move to last slice with complete bone (Z2)");
+	waitForUser("Move to last slice of interest (Z2)");
 	Z2=getSliceNumber();
 	setResult("ToRem", Z1-1,"Z1") ;
 	setResult("ToRem", Z2-1,"Z2") ;

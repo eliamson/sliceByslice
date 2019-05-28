@@ -1,12 +1,13 @@
 macro "sliceBySlice" {
 
-//V0.9.4
+//V0.9.5 Add plot and make sure binarize option is set correctly
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
 //This macro measures slice by slice area and compactness of object of interest. It should be applied to a stack (grey-values or already binarized) of which the unit is either mm or inch.
 
 run("Set Measurements...", "area area_fraction redirect=None decimal=3");
+run("Options...", "iterations=1 count=1");
 
 //Uses "Optimise Threshold" of BoneJ
 
@@ -124,7 +125,10 @@ run("Set Measurements...", "area area_fraction redirect=None decimal=3");
 		ResAreaMean=ResAreaMean/Nincluded;
 		print("Mean total cross-sectional area (Tt.Ar): "+ResAreaMean+" mm2");
 		print("Mean global compactness(Cg): "+ResCmean+"%");
+		
+		//Plot
+		//Only from Z1 to Z2: xValues=Array.getSequence(Z2+1);xValues=Array.slice(xValues,(Z1),(Z2+1));
+	xValues=Array.getSequence(nSlices+1);xValues=Array.slice(xValues,(1),(nSlices+1));
+	Plot.create("Global compactness", "slice position", "Gc (%)",xValues,ResC);
+	Plot.drawLine(Z1,100,Z1,0);Plot.drawLine(Z2,100,Z2,0);
 }
-
-//ResAreaCl=newArray(Z2-Z1+1-ToRemCount);
-//ResCCl=newArray(Z2-Z1+1-ToRemCount);

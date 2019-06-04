@@ -1,6 +1,6 @@
 macro "sliceBySlice" {
 
-//V0.9.7 Better text
+//V0.9.8 with minPart
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -60,7 +60,7 @@ run("Options...", "iterations=1 count=1");
 
 	for (i=1;i<=nSlices;i++){
 		setSlice(i);
-		run("Analyze Particles...", "size=0-Infinity show=Nothing clear  include slice");
+		run("Analyze Particles...", "size="+minPart+"-Infinity show=Nothing clear  include slice");
 		maxPartN=0;
 		maxPartArea=0;
 			if (nResults!=0){	

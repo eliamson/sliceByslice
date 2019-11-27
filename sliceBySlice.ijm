@@ -1,6 +1,6 @@
-macro "sliceBySlice" {
+macro "sliceBySliceBeta" {
 
-//V0.9.8 with minPart
+//V1.0: with Threshold exclusion
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -79,7 +79,7 @@ run("Options...", "iterations=1 count=1");
 			run("Clear Results");
 	}
 	
-	// Make final Result table
+	// Make Result table
 	for (i=0; i<nSlices; i++) {
 		setResult("ResArea ("+unit+")", i, ResArea[i]); // ResArea = whole sectional area of the studied bone (on each slice)
 		setResult("ResC", i, ResC[i]) ; // ResC = global compactness of the studied bone's cross-section (on each slice)
@@ -91,7 +91,6 @@ run("Options...", "iterations=1 count=1");
 	waitForUser("Move to first slice of interest (Z1)");
 	Z1=getSliceNumber();
 	ToDel=true;
-	ToRemCount=0;
 		while (ToDel){
 		waitForUser("Check if slices to remove and then click 'OK'");
 		Dialog.create("Slices to exclude?");
@@ -106,10 +105,8 @@ run("Options...", "iterations=1 count=1");
 			print("Last slice excluded: "+L);
 			if (F==L) {
 				setResult("ToRem", L-1, 1) ;
-				ToRemCount=ToRemCount+1;
 				}else{
 					for (j=F-1; j<L; j++) {
-						ToRemCount=ToRemCount+1;
 						setResult("ToRem", j, 1) ;
 						}
 					}
@@ -120,13 +117,36 @@ run("Options...", "iterations=1 count=1");
 	setResult("ToRem", Z1-1,"Z1") ;
 	setResult("ToRem", Z2-1,"Z2") ;
 
+	//Plot
+		//Only from Z1 to Z2: xValues=Array.getSequence(Z2+1);xValues=Array.slice(xValues,(Z1),(Z2+1));
+	xValues=Array.getSequence(nSlices+1);xValues=Array.slice(xValues,(1),(nSlices+1));
+	Plot.create("Global compactness", "slice position", "Gc (%)",xValues,ResC);
+	Plot.drawLine(Z1,100,Z1,0);Plot.drawLine(Z2,100,Z2,0);
+	Plot.show();
+
+	// Slice exclusion by GC threshold
+waitForUser("Check plot");
+Threshold=0;
+Dialog.create("Exclude GC > to:");
+Dialog.addString("> to:", Threshold);
+Dialog.show();
+Threshold = parseFloat(Dialog.getString());
+for (i=Z1; i<Z2; i++) {
+	if (ResC[i]>Threshold){
+		setResult("ToRem", i, 1);
+		}
+	}
+
 	//Print overall stats
 	ResCmean=0;
 	ResAreaMean=0;
+	ToRemCount=0;
 		for (i=Z1-1; i<Z2; i++){	//Take range within Z1 and Z2 and exclude ToRems
 			if (getResult("ToRem",i)!=1) {
 				ResCmean=ResCmean+ResC[i];
 				ResAreaMean=ResAreaMean+ResArea[i];
+				}else{
+				ToRemCount=ToRemCount+1;	
 				}
 			}
 		Nincluded=Z2-Z1+1-ToRemCount;
@@ -135,9 +155,5 @@ run("Options...", "iterations=1 count=1");
 		print("Mean total cross-sectional area (Tt.Ar): "+ResAreaMean+" mm2");
 		print("Mean global compactness(Cg): "+ResCmean+"%");
 		
-		//Plot
-		//Only from Z1 to Z2: xValues=Array.getSequence(Z2+1);xValues=Array.slice(xValues,(Z1),(Z2+1));
-	xValues=Array.getSequence(nSlices+1);xValues=Array.slice(xValues,(1),(nSlices+1));
-	Plot.create("Global compactness", "slice position", "Gc (%)",xValues,ResC);
-	Plot.drawLine(Z1,100,Z1,0);Plot.drawLine(Z2,100,Z2,0);
+		
 }

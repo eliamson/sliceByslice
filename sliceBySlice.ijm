@@ -1,6 +1,6 @@
 macro "sliceBySliceBeta" {
 
-//V1.0: with Threshold exclusion
+//V1.1: with Threshold exclusion (default 100%)
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -126,7 +126,7 @@ run("Options...", "iterations=1 count=1");
 
 	// Slice exclusion by GC threshold
 waitForUser("Check plot");
-Threshold=0;
+Threshold=100;
 Dialog.create("Exclude GC > to:");
 Dialog.addString("> to:", Threshold);
 Dialog.show();

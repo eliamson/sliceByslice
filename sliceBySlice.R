@@ -1,5 +1,5 @@
 #Slice by slice acquisition of global compactness and cross-sectional area.
-#V0.2
+#V0.3
 #See accompanying ImageJ macro.
 #Eli Amson. eli.amson1988@gmail.com
 
@@ -13,7 +13,6 @@ library(easycsv)# for choose_dir()
 vertCplot<- function(rowI,DoPlots = FALSE){ 
   Range <- 4  # for outlier detection
   dfFull <- data.frame(read.csv(DataMSCF_List[rowI],header = T,fileEncoding="latin1"))
-  names(dfFull)[names(dfFull)=="ResArea..mm."] <- "ResArea"
   levels(dfFull$ToRem) <- c(levels(dfFull$ToRem),"3")
   Z1=dfFull$X[dfFull$ToRem=="Z1"]
   Z2=dfFull$X[dfFull$ToRem=="Z2"]

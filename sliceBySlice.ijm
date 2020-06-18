@@ -1,6 +1,6 @@
 macro "sliceBySliceBeta" {
 
-//V1.1: with Threshold exclusion (default 100%)
+//V1.2: "mm" typo
 //Eli Amson eli.amson1988@gmail.com
 //Requires BoneJ: http://bonej.org/
 
@@ -81,7 +81,7 @@ run("Options...", "iterations=1 count=1");
 	
 	// Make Result table
 	for (i=0; i<nSlices; i++) {
-		setResult("ResArea ("+unit+")", i, ResArea[i]); // ResArea = whole sectional area of the studied bone (on each slice)
+		setResult("ResArea", i, ResArea[i]); // ResArea = whole sectional area of the studied bone (on each slice)
 		setResult("ResC", i, ResC[i]) ; // ResC = global compactness of the studied bone's cross-section (on each slice)
 	}
 	// Selection of first (Z1) and last (Z2) slices and slices to remove (semi-automatically)
